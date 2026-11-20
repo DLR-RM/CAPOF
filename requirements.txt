@@ -1,0 +1,25 @@
+# Core dependencies (Python 3.12)
+# Mirrors the dependencies in pyproject.toml
+# (equivalent one-shot install:  pip install -e ".[dev]")
+matplotlib==3.9.4
+numpy==2.0.2
+scikit-learn==1.5.2
+scipy==1.13.1
+gymnasium==0.29.1
+h5py>=3.10
+opencv-python>=4.8
+pynput>=1.7
+
+# Robomimic stack (robomim use-cases)
+robomimic==0.3.0
+mujoco==3.8.0
+robosuite==1.5.1
+mujoco-py==2.1.2.14
+patchelf==0.17.2.4
+Cython==0.29.37
+robosuite-models==1.0.0
+
+# Black-box optimization (bbo/)
+optuna
+scikit-optimize
+cmaes

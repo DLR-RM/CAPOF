@@ -1,0 +1,17 @@
+# Development / verification tools (used by the Makefile targets)
+# (mirrors the `dev` extra in pyproject.toml)
+#
+#   make lint          -> ruff
+#   make mypy          -> mypy
+#   make pytest        -> pytest
+#   make pytest_cov    -> pytest + pytest-cov
+#   make format        -> isort + black
+#
+# Install with:  pip install -r requirements-dev.txt
+
+mypy
+ruff
+pytest
+pytest-cov
+black
+isort

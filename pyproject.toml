@@ -1,0 +1,115 @@
+# Project packaging (PEP 621) + tooling configuration (ruff, isort, mypy, pytest).
+#
+# Install:  pip install -e ".[dev]"   (see `make install`)
+#   dependencies: all runtime dependencies (mirror of requirements.txt)
+#   extras:       dev  -> linting / type checking / test tools
+#
+# Note: the Makefile remains the primary workflow (make lint / mypy / pytest /
+# format). All tool settings (line length 127, isort first-party list) live in
+# the [tool.*] sections below and are shared by black, isort, and ruff.
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "capof"
+version = "0.1.0"
+description = "CAPOF: A context-adaptive policy framework for robust and reactive robotic manipulation via uncertainty-aware imitation learning"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [
+    { name = "Tim Robin Winter", email = "tim.winter@dlr.de" },
+]
+# All runtime dependencies (mirror of requirements.txt)
+dependencies = [
+    # Core
+    "matplotlib==3.9.4",
+    "numpy==2.0.2",
+    "scikit-learn==1.5.2",
+    "scipy==1.13.1",
+    "gymnasium==0.29.1",
+    "h5py>=3.10",
+    "opencv-python>=4.8",
+    "pynput>=1.7",
+    # Robomimic stack (robomim use-cases)
+    "robomimic==0.3.0",
+    "mujoco==3.8.0",
+    "robosuite==1.5.1",
+    "mujoco-py==2.1.2.14",
+    "patchelf==0.17.2.4",
+    "Cython==0.29.37",
+    "robosuite-models==1.0.0",
+    # Black-box optimization (bbo/)
+    "optuna",
+    "scikit-optimize",
+    "cmaes",
+]
+
+[project.optional-dependencies]
+# Development / verification tools (used by the Makefile targets)
+dev = [
+    "mypy",
+    "ruff",
+    "pytest",
+    "pytest-cov",
+]
+
+# Only `capof` is an installable package; examples/ and bbo/ run from source.
+[tool.setuptools]
+packages = ["capof"]
+
+[tool.ruff]
+line-length = 127
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+]
+ignore = [
+    "E501",  # line length handled by black (127)
+]
+
+[tool.ruff.lint.isort]
+# Local packages and sibling modules imported from the example entry scripts
+# (keep in sync with [tool.isort] known_first_party below)
+known-first-party = [
+    "capof",
+    "examples",
+    "lasa_data",
+    "lasa_interface",
+    "six_dimensional_interface",
+]
+
+[tool.isort]
+# Keep standalone isort (used by `make format`) in sync with black
+# ([tool.black]) and the ruff isort rules above, so format and lint never
+# disagree.
+# `known_first_party` must mirror [tool.ruff.lint.isort] `known-first-party`.
+profile = "black"
+line_length = 127
+known_first_party = [
+    "capof",
+    "examples",
+    "lasa_data",
+    "lasa_interface",
+    "six_dimensional_interface",
+]
+
+[tool.black]
+# Must stay in sync with [tool.ruff] line-length and [tool.isort] line_length.
+line-length = 127
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_configs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

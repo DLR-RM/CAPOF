@@ -1,0 +1,27 @@
+# Python
+*__pycache__*
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Build / test artifacts
+build/
+dist/
+
+# Local results
+examples/robomim/results/
+bbo/bbo_optimization_results_*/
+
+# Datasets (not shipped with the repo; obtain as described in the README)
+examples/lasa/dataset/
+examples/robomim/datasets/
+
+# Environments
+.venv/
